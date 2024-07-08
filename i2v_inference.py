@@ -18,8 +18,8 @@ def main(args) :
     pipe.set_adapters(["lcm-lora"], [0.8])
 
     print(f' \n step 3. (image condition) IP-Adapter')
-    pipe.load_ip_adapter("h94/IP-Adapter", subfolder="models", weight_name="ip-adapter_sd15.bin")
-    pipe.set_ip_adapter_scale(0.6)
+    #pipe.load_ip_adapter("h94/IP-Adapter", subfolder="models", weight_name="ip-adapter_sd15.bin")
+    #pipe.set_ip_adapter_scale(0.6)
 
     print(f' \n step 4. Inference')
     print(f' (0) save dir')
@@ -29,8 +29,8 @@ def main(args) :
     with open(test_file_dir, 'r') as f:
         datas = f.readlines()
 
-    inference_steps = [30]
-    guidance_scales = [2]
+    inference_steps = [6]
+    guidance_scales = [1.5]
     ip_adapter_scales = [0.6]
 
     for inference_step in inference_steps:
@@ -57,17 +57,19 @@ def main(args) :
                     start_time = datetime.datetime.now()
                     output = pipe(prompt=prompt,
                                   negative_prompt=negative_prompt,
-                                  ip_adapter_image=ip_adapter_image, # ip_adapter_image
+                                  # ip_adapter_image=ip_adapter_image, # ip_adapter_image
                                   num_frames=args.num_frames,
                                   guidance_scale=guidance_scale,
                                   num_inference_steps=inference_step,
-                                  window_size = args.window_size,
+                                  window_size = 16, #args.window_size,
                                   generator=torch.Generator("cpu").manual_seed(0),
                                   save_base_folder = savedir,)
                     end_time = datetime.datetime.now()
                     take_time = end_time - start_time
                     frames = output.frames[0]
-                    export_to_gif(frames, os.path.join(savedir, f"{name}_infsteos_{inference_step}_guidance_scale_{guidance_scale}_ip_adapter_scale_{ip_adapter_scale}.gif"))
+                    save_name = os.path.join(savedir, f"{name}_infsteos_{inference_step}_guidance_scale_{guidance_scale}_ip_adapter_scale_{ip_adapter_scale}.gif")
+                    print(f'save_name: {save_name}')
+                    export_to_gif(frames, save_name)
                     shutil.copy(image_dir, os.path.join(savedir, f"{name}_origin.jpg"))
                     with open(os.path.join(savedir, f"{name}_{inference_step}_guidance_scale_{guidance_scale}_ip_adapter_scale_{ip_adapter_scale}.txt"), 'w') as f:
                         f.write(f'prompt: {prompt}\n')
