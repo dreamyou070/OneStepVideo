@@ -122,11 +122,14 @@ class MutualMotionAttentionControl(AttentionBase):
                  model_type="SD",
                  guidance_scale = 1,
                  frame_num = 16,
-                 full_attention = False,
+                 full_attention = True,
                  window_attention = False,
                  window_size = 16,
                  total_frame_num = 64,
-                 skip_layers = ['down_0_0']):
+                 skip_layers = ['down_0_0'],
+                 is_teacher = False,
+                 is_eval = False,
+                 do_attention_map_check = False) :
         """
         Mutual self-attention control for Stable-Diffusion model
         Args:
@@ -161,6 +164,10 @@ class MutualMotionAttentionControl(AttentionBase):
         self.attnmap_dict = {}
         self.timestep = 0
         self.skip_layers = skip_layers
+        self.layerwise_hidden_dict = {}
+        self.is_teacher = is_teacher
+        self.is_eval = is_eval
+        self.do_attention_map_check = do_attention_map_check
 
 
     def attn_batch(self, q, k, v, sim, #attn,
@@ -211,14 +218,28 @@ class MutualMotionAttentionControl(AttentionBase):
 
         return out
 
+    def save_hidden_states(self, hidden_states = None, layer_name = None):
+        if layer_name not in self.layerwise_hidden_dict:
+            self.layerwise_hidden_dict[layer_name] = []
+        self.layerwise_hidden_dict[layer_name].append(hidden_states)
+
+
     def save_attention_map(self, attn_map, layer_name):
         if layer_name not in self.attnmap_dict:
             self.attnmap_dict[layer_name] = {}
         self.attnmap_dict[layer_name][f'time_{self.timestep}'] = attn_map
 
-
     def set_timestep(self, timestep):
         self.timestep = timestep
+
+    def reset(self):
+
+        self.attnmap_dict = {}
+        self.layerwise_hidden_dict = {}
+
+
+
+
 class MutualSelfAttentionControlUnion(MutualSelfAttentionControl):
     def __init__(self,
                  start_step=4, start_layer=10, layer_idx=None, step_idx=None, total_steps=50, model_type="SD"):
