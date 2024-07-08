@@ -280,8 +280,7 @@ def regiter_motion_attention_editor_diffusers(unet, editor: AttentionBase):
                 if editor.guidance_scale > 1 :
                     uncon_attn_weight, attn_weight = attn_weight.chunk(2)
                 attn_weight = attn_weight.mean(dim=(0,1))
-                print(f'attn_weight.shape = {attn_weight.shape}')
-                editor.save_attention_map(attn_weight, full_name)
+                #editor.save_attention_map(attn_weight, full_name)
 
 
 
@@ -327,14 +326,17 @@ def regiter_motion_attention_editor_diffusers(unet, editor: AttentionBase):
             do_skip = False
             do_save = True
             for skip_layer in editor.skip_layers:
-                if skip_layer in layer_name.lower():
+                if skip_layer == layer_name.lower():
                     do_skip = True
                     do_save = False
 
+
             if do_skip and not editor.is_teacher and not editor.is_eval:
+                print(f' editor.skip_layers = {editor.skip_layers}')
+                print(f' {layer_name} : skip layer')
                 # student save this one (only at training state)
-                editor.save_hidden_states(hidden_states=input,
-                                          layer_name=layer_name)
+                #editor.save_hidden_states(hidden_states=input,
+                #                          layer_name=layer_name)
                 return TransformerTemporalModelOutput(sample=hidden_states)
 
             else :
@@ -381,7 +383,7 @@ def regiter_motion_attention_editor_diffusers(unet, editor: AttentionBase):
                     #
                     is_train = not editor.is_eval
                     # ' Teacher Saving Time !'
-                    editor.save_hidden_states(hidden_states=output, layer_name=layer_name)
+                    #editor.save_hidden_states(hidden_states=output, layer_name=layer_name)
 
                 if not return_dict:
                     return (output,)

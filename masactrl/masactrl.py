@@ -236,6 +236,7 @@ class MutualMotionAttentionControl(AttentionBase):
 
         self.attnmap_dict = {}
         self.layerwise_hidden_dict = {}
+        self.skip_layers = []
 
 
 

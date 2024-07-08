@@ -15,11 +15,11 @@ port_number=50093
 accelerate launch --config_file ../gpu_config/gpu_0_1_config \
  --main_process_port $port_number \
  train_distill.py \
- --sub_folder_name 'down_3_1_mid_up_0_1_distill_weight_0.0_vlb_weight_0.0_loss_feature_weight_1.0' \
+ --sub_folder_name 'down_3_1_mid_up_0_1_distill_weight_1.0_vlb_weight_0.0_loss_feature_weight_0.0' \
  --config configs/training/v1/training.yaml \
  --wandb \
  --sample_n_frames 8 \
  --inference_step 12 \
  --guidance_scale 2.0 --motion_control \
  --skip_layers "['down_3_1','mid','up_0_1',]" \
- --distill_weight 0.0 --vlb_weight 0.0 --loss_feature_weight 1.0
+ --distill_weight 0.0 --vlb_weight 1.0 --loss_feature_weight 0.0

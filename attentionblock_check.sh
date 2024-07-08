@@ -15,10 +15,11 @@ port_number=50096
 accelerate launch --config_file ../gpu_config/gpu_0_config \
  --main_process_port $port_number \
  attentionblock_check.py \
- --sub_folder_name 'down_3_1_mid_up_0_1_distill_weight_1.0_vlb_weight_0.0_loss_feature_weight_0.0_2024-07-08T09-34-41' \
+ --sub_folder_name 'down_3_1_mid_up_0_1_distill_weight_0.0_vlb_weight_0.0_loss_feature_weight_1.0_2024-07-08T13-10-18' \
  --config configs/training/v1/training.yaml \
  --wandb \
  --sample_n_frames 8 \
  --inference_step 12 \
  --guidance_scale 2.0 --motion_control \
+ --target_epoch 99 \
  --skip_layers "['down_3_1', 'mid', 'up_0_1',]"

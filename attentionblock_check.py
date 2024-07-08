@@ -172,14 +172,16 @@ def main(image_finetune: bool,
     student_pipe.to(accelerator.device, dtype=weight_dtype)
 
     logger.info(f' (4.2) experiment_unet')
-    experiment_base_dir = r'/share0/dreamyou070/dreamyou070/OneStepVideo/experiment/test_2024-07-08T11-30-07'
+    experiment_base_dir = r'/share0/dreamyou070/dreamyou070/OneStepVideo/experiment'
+    experiment_base_dir = os.path.join(experiment_base_dir, args.sub_folder_name)
     config_dir = os.path.join(experiment_base_dir, 'checkpoints/config.json')
+    # /share0/dreamyou070/dreamyou070/OneStepVideo/experiment/test_2024-07-08T11-30-07/checkpoints/config.json
     # read json
     config_dict = json.load(open(config_dir))
     experiment_unet = UNetMotionModel.from_config(config_dict)
 
     # [1] loading
-    checkpoint_file = os.path.join(experiment_base_dir, 'checkpoints/checkpoint_epoch2.ckpt')
+    checkpoint_file = os.path.join(experiment_base_dir, f'checkpoints/checkpoint_epoch{args.target_epoch}.ckpt')
     # ckpt read
     state_dict = torch.load(checkpoint_file)['state_dict']
     experiment_unet.load_state_dict(state_dict)
@@ -242,6 +244,7 @@ def main(image_finetune: bool,
                     attnmaps.append(layer_attndict[time_step])
                 attnmaps = torch.stack(attnmaps, dim=0).mean(dim=0) # [16,16], torch type
                 attnmap_save_dir = os.path.join(video_attnmap_folder, f'{video_name}_{layer_name}.png')
+                print(f'attnmap_save_dir: {attnmap_save_dir}')
                 #plt.imshow(attnmaps)
                 attnmap_img = torchvision.transforms.ToPILImage()(attnmaps)
                 attnmap_img.save(attnmap_save_dir)
@@ -272,6 +275,7 @@ if __name__ == "__main__":
     parser.add_argument('--loss_feature_weight', type=float, default=1.0)
     parser.add_argument('--guidance_scale', type=float, default=1.5)
     parser.add_argument('--inference_step', type=int, default=6)
+    parser.add_argument('--target_epoch', type=int, default=6)
     args = parser.parse_args()
     name = Path(args.config).stem
     config = OmegaConf.load(args.config)
