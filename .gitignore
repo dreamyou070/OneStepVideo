@@ -1,0 +1,6 @@
+*.gif
+*.mp4
+experim*
+wandb
+output
+result

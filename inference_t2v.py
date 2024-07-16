@@ -38,8 +38,8 @@ from data.dataset import WebVid10M
 from animatediff.models.unet import UNet3DConditionModel
 from accelerate import accelerator
 from utils.layer_dictionary import find_layer_name
-from masactrl.masactrl_utils import (regiter_attention_editor_diffusers, regiter_motion_attention_editor_diffusers)
-from masactrl.masactrl import MutualSelfAttentionControl, MutualMotionAttentionControl
+from attn.masactrl_utils import (regiter_attention_editor_diffusers, regiter_motion_attention_editor_diffusers)
+from attn.masactrl import MutualSelfAttentionControl, MutualMotionAttentionControl
 from diffusers import LCMScheduler
 from diffusers.utils import export_to_gif, load_image
 from utils.util import save_videos_grid

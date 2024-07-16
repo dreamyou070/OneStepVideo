@@ -1,0 +1,5 @@
+python idea_test.py \
+ --n_prompt "ImgFixerPre0.3, glowing face, bad proportions, blurry, blurred composition, low resolution, bad, ugly, bad composition, terrible, 3d, render, comic, manga, flat, watermark, signature, worst quality, low quality, normal quality, lowres, simple background, inaccurate limb, extra fingers, fewer fingers, missing fingers, extra arms, extra legs, inaccurate eyes, bad composition, bad anatomy, error, extra digit, fewer digits, cinnadust, cropped, low res, worst quality, low quality, normal quality, jpeg artifacts, extra digit, fewer digits, trademark, watermark, artist's name, username, signature, text, words, human, blurry, blurred composition, blurry foreground, blurry background" \
+ --inference_steps 6 \
+ --model_path_diffusion "CompVis/stable-diffusion-v1-4" \
+ --num_frames 16 --self_control --motion_control

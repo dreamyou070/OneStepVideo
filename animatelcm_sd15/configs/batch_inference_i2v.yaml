@@ -1,0 +1,36 @@
+I2V-Example:
+  base:
+    - "SG161222/Realistic_Vision_V4.0_noVAE"
+  vae_model_path:
+    - "stabilityai/sd-vae-ft-mse"
+  motion_adopter:
+    - "guoyww/animatediff-motion-adapter-v1-5-2"
+  motion_module: # what is different between motion adopter and module ?
+    - "/share0/dreamyou070/dreamyou070/SD/pretrained/AnimateLCM/AnimateLCM_sd15_t2v.ckpt"
+  lcm_lora: # sd15_t2v_beta_lora.safetensors / strength 1.0
+    - "/share0/dreamyou070/dreamyou070/SD/pretrained/AnimateLCM/lcm_lora_weights.safetensors"
+  ip_adapter: # ip-adapter-faceid-portrait_sd15.bin
+    - "h94/IP-Adapter"
+  dreambooth_path: ""
+  lora_model_path: ""
+  inference_config: "configs/inference-i2v.yaml"
+
+  seed:           [2, 0, 2, 4]
+  steps:          4
+  guidance_scale: 1 # should be  [1,2]
+  do_classifier_free_guidance: True
+  H: 512
+  W: 512
+  L: 16
+  prompt:
+    - "a girl is in a dark fireworks background, 4k, high resolution"
+  n_prompt:
+    - "bad quality, worse quality, low resolution"
+  image_paths:
+    - "test_imgs/girl.png"
+
+# /share0/dreamyou070/dreamyou070/SD/pretrained/AnimateLCM/AnimateLCM_sd15_t2v_lora.safetensors
+# AnimateLCM_sd15_t2v.ckpt
+# diffusion_pytorch_model.safetensors
+# - "/share0/dreamyou070/dreamyou070/SD/pretrained/AnimateLCM/AnimateLCM_sd15_t2v_lora.safetensors"
+# realistic-realisticVisionV50_v50VAE.safetensors (trained VAE model)

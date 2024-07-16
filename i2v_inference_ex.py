@@ -6,9 +6,9 @@ import argparse, os
 import shutil
 import yaml
 from utils.layer_dictionary import find_layer_name
-from masactrl.masactrl_utils import (regiter_attention_editor_diffusers,
-                                     regiter_motion_attention_editor_diffusers)
-from masactrl.masactrl import MutualSelfAttentionControl, MutualMotionAttentionControl
+from attn.masactrl_utils import (regiter_attention_editor_diffusers,
+                                 regiter_motion_attention_editor_diffusers)
+from attn.masactrl import MutualSelfAttentionControl, MutualMotionAttentionControl
 import logging
 from datetime import datetime
 import wandb
