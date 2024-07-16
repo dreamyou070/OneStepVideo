@@ -1,8 +1,6 @@
-import torch
-import datetime
-import time
-start_time = time.time()
-end_time = time.time()
-print(f'start_time: {start_time}')
-print(f'end_time: {end_time}')
-print(f'Elapsed time: {end_time - start_time}')
+step = 20
+
+list1 = [3,4]
+list2 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+list1 += list2
+print(list1)

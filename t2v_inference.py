@@ -2,8 +2,8 @@ import torch
 from diffusers import AnimateDiffPipeline, LCMScheduler, MotionAdapter
 from diffusers.utils import export_to_gif, export_to_video
 import os
-from masactrl.masactrl import MutualMotionAttentionControl
-from masactrl.masactrl_utils import regiter_motion_attention_editor_diffusers
+from attn.masactrl import MutualMotionAttentionControl
+from attn.masactrl_utils import regiter_motion_attention_editor_diffusers
 import time
 
 layer_dict = {0: 'down_blocks_0_motion_modules_0',
